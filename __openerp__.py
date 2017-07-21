@@ -15,7 +15,7 @@ Gestion des demandes pour Plastigray
         'security/ir.model.access.csv',
         'is_gestion_demandes_view.xml',
         'data/sequence.xml',
-        'report/is_export_demandes.xml',
+        #'report/is_export_demandes.xml',
         'report/is_indicateur_demandes.xml',
     ],
     'demo': [],
