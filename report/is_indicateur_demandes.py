@@ -38,7 +38,7 @@ class is_indicateur_demandes(osv.osv):
                         (100*sum(gd.tps_passe)/ia.tps_maxi) as avancement
                     FROM is_gestion_demandes gd LEFT OUTER JOIN is_gestion_demandes_application ia ON gd.application_id=ia.id 
                     WHERE ia.id>0 
-                    GROUP BY ia.id, ia.name, ia.tps_budgete
+                    GROUP BY ia.id, ia.name
                     ORDER BY ia.name 
                )
         """)
