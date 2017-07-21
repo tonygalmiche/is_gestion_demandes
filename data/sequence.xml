@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="seq_type_gestion_demandes" model="ir.sequence.type">
+            <field name="name">Gestion des demandes</field>
+            <field name="code">gestion.demandes.number</field>
+        </record>
+        <record id="seq_gestion_demandes" model="ir.sequence">
+            <field name="name">Gestion des demandes Sequence</field>
+            <field name="code">gestion.demandes.number</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</openerp>

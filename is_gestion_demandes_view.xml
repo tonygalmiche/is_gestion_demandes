@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+    <record id="is_gestion_demandes_main_menu" model="ir.ui.menu" >
+        <field name="name">Gestion des demandes</field>
+        <field name="sequence">50</field>
+        <field name="groups_id" eval="[(6,0,[ref('account.group_account_invoice')])]"/>
+    </record>
+    <menuitem name="Gestion des demandes"  id="menu_gestion_demandes_root"          sequence="10" parent="is_gestion_demandes_main_menu"/>
+    <menuitem name="Indicateurs"           id="menu_gestion_demandes_indicateurs"   sequence="20" parent="is_gestion_demandes_main_menu"/>
+    <menuitem name="Configuration"         id="menu_gestion_demandes_configuration" sequence="30" parent="is_gestion_demandes_main_menu"/>
+
+
+    <!--  Gestion des demandes -->
+    <record model="ir.ui.view" id="is_gestion_demandes_tree_view">
+        <field name="name">is.gestion.demandes.tree</field>
+        <field name="model">is.gestion.demandes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="createur_id" invisible="context.get('invisible_createur', True)"/>
+                <field name="demandeur_id"/>
+                <field name="date_demande" count="Nombre de demandes" />
+                <field name="application_id" widget="many2one_clickable"/>
+                <field name="demande"/>
+                <field name="etude"/>
+                <field name="tps_prevu"       sum="Total"/>
+                <field name="date_validation"/>
+                <field name="date_realisation"/>
+                <field name="tps_passe"       sum="Total"/>
+                <field name="tps_passe_jour"  sum="Total"/>
+                <field name="montant_facture" sum="Total"/>
+                <field name="facture"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="is_gestion_demandes_form_view">
+        <field name="name">is.gestion.demandes.form</field>
+        <field name="model">is.gestion.demandes</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="true"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="createur_id"/>
+                        <field name="demandeur_id"/>
+                        <field name="date_demande"/>
+                        <field name="application_id"/>
+                        <field name="demande"/>
+                        <field name="etude"/>
+                        <field name="tps_prevu"/>
+                        <field name="date_validation"/>
+                        <field name="date_realisation"/>
+                        <field name="tps_passe"/>
+                        <field name="montant_facture"/>
+                        <field name="facture"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="is_gestion_demandes_search_view">
+        <field name="name">is_gestion_demandes_search_view</field>
+        <field name="model">is.gestion.demandes</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="createur_id"/>
+                <field name="demandeur_id"/>
+                <field name="application_id"/>
+                <field name="demande"/>
+                <field name="etude"/>
+                <field name="facture"/>
+                <field name="state"/>
+
+                <field name="name" string="Dans tous les champs"
+                       filter_domain="['|','|','|', ('name','ilike',self), ('demande','ilike',self), ('etude', 'ilike', self), ('facture', 'ilike', self)]"/>
+
+                <!-- Group by -->
+                <group string="Regroupement par">
+                    <filter string="Créateur"      context="{'group_by': 'createur_id'}"/>
+                    <filter string="Demandeur"     context="{'group_by': 'demandeur_id'}"/>
+                    <filter string="Application"   context="{'group_by': 'application_id'}"/>
+                    <filter string="Mois de réalisation"   context="{'group_by': 'date_realisation:month'}"/>
+                    <filter string="Année de réalisation"  context="{'group_by': 'date_realisation:year'}"/>
+                    <filter string="Facture"       context="{'group_by': 'facture'}"/>
+                    <filter string="Etat"          context="{'group_by': 'state'}"/>
+                </group>
+
+                <!-- Filtres permettant d'afficher des colonnes -->
+                <group string="Afficher les champs">
+                    <filter string="Créateur" context="{'invisible_createur': False}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+
+
+    <record id="is_demandes_a_chiffrer_action" model="ir.actions.act_window">
+        <field name="name">A chiffrer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','a_chiffrer')]</field>
+    </record>
+    <menuitem action="is_demandes_a_chiffrer_action"  id="menu_demandes_a_chiffrer" parent="menu_gestion_demandes_root" sequence="10"/>
+
+
+    <record id="is_demandes_a_valider_action" model="ir.actions.act_window">
+        <field name="name">A valider</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','a_valider')]</field>
+    </record>
+    <menuitem action="is_demandes_a_valider_action"  id="menu_demandes_a_valider" parent="menu_gestion_demandes_root" sequence="20"/>
+
+
+    <record id="is_demandes_a_realiser_action" model="ir.actions.act_window">
+        <field name="name">A réaliser</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','a_realiser')]</field>
+    </record>
+    <menuitem action="is_demandes_a_realiser_action"  id="menu_demandes_a_realiser" parent="menu_gestion_demandes_root" sequence="30"/>
+
+
+    <record id="is_demandes_a_facturer_action" model="ir.actions.act_window">
+        <field name="name">A facturer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','a_facturer')]</field>
+    </record>
+    <menuitem action="is_demandes_a_facturer_action"  id="menu_demandes_a_facturer" parent="menu_gestion_demandes_root" sequence="40"/>
+
+    <record id="is_demandes_facture_action" model="ir.actions.act_window">
+        <field name="name">Facturées</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','facture')]</field>
+    </record>
+    <menuitem action="is_demandes_facture_action"  id="menu_demandes_facture" parent="menu_gestion_demandes_root" sequence="50"/>
+
+    <record id="is_demandes_toutes_action" model="ir.actions.act_window">
+        <field name="name">Toutes les demandes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record>
+    <menuitem action="is_demandes_toutes_action"  id="menu_demandes_toutes" parent="menu_gestion_demandes_root" sequence="60"/>
+
+
+
+
+    <!-- graph Indicateur 1 -->
+    <!-- Doc : https://doc.odoo.com/trunk/web_graph/ -->
+    <record id="is_demandes_graph1_view" model="ir.ui.view">
+         <field name="name">is_gestion_demandes_graph1_view</field>
+         <field name="model">is.gestion.demandes</field>
+         <field name="arch" type="xml">
+            <graph string="view" type="pivot">
+              <!--<field name="date_proposition" type="row"/>-->
+              <field name="application_id" type="row"/>
+              <field name="date_realisation" interval="month" type="col"/>
+              <field name="tps_passe_jour" type="measure"/>
+             </graph>
+         </field>
+    </record>
+    <record model="ir.actions.act_window" id="is_demandes_graph1_action">
+      <field name="name">Suivi par application</field>
+      <field name="res_model">is.gestion.demandes</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="is_demandes_graph1_view"/>
+    </record>
+    <menuitem action="is_demandes_graph1_action"  id="is_demandes_graph1_menu" parent="menu_gestion_demandes_indicateurs" sequence="10"/>
+
+
+    <!-- graph Indicateur 2 -->
+    <record id="is_demandes_graph2_view" model="ir.ui.view">
+         <field name="name">is_gestion_demandes_graph2_view</field>
+         <field name="model">is.gestion.demandes</field>
+         <field name="arch" type="xml">
+            <graph string="view" type="pivot">
+              <field name="demandeur_id"    type="col"/>
+              <field name="application_id"  type="row"/>
+              <field name="tps_passe"       type="measure"/>
+             </graph>
+         </field>
+    </record>
+    <record model="ir.actions.act_window" id="is_demandes_graph2_action">
+      <field name="name">Suivi par demandeur</field>
+      <field name="res_model">is.gestion.demandes</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="is_demandes_graph2_view"/>
+    </record>
+    <menuitem action="is_demandes_graph2_action"  id="is_demandes_graph2_menu" parent="menu_gestion_demandes_indicateurs" sequence="20"/>
+
+
+
+    <!-- graph Indicateur 3 -->
+    <record id="is_demandes_graph3_view" model="ir.ui.view">
+         <field name="name">is_gestion_demandes_graph3_view</field>
+         <field name="model">is.gestion.demandes</field>
+         <field name="arch" type="xml">
+            <graph string="view" type="pivot">
+              <field name="date_realisation" interval="year"  type="row"/>
+              <field name="date_realisation" interval="month" type="row"/>
+              <field name="tps_prevu"       type="measure"/>
+              <field name="tps_passe"       type="measure"/>
+              <field name="tps_passe_jour"  type="measure"/>
+              <field name="montant_facture" type="measure"/>
+             </graph>
+         </field>
+    </record>
+    <record model="ir.actions.act_window" id="is_demandes_graph3_action">
+      <field name="name">Suivi par mois</field>
+      <field name="res_model">is.gestion.demandes</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="is_demandes_graph3_view"/>
+    </record>
+    <menuitem action="is_demandes_graph3_action"  id="is_demandes_graph3_menu" parent="menu_gestion_demandes_indicateurs" sequence="30"/>
+
+
+    <!-- graph Indicateur 4 -->
+    <record id="is_demandes_graph4_view" model="ir.ui.view">
+         <field name="name">is_gestion_demandes_graph4_view</field>
+         <field name="model">is.gestion.demandes</field>
+         <field name="arch" type="xml">
+            <graph string="view" type="pivot">
+              <field name="facture"          type="row"/>
+              <field name="tps_passe_jour"  type="measure"/>
+              <field name="montant_facture"  type="measure"/>
+             </graph>
+         </field>
+    </record>
+    <record model="ir.actions.act_window" id="is_demandes_graph4_action">
+      <field name="name">Suivi par facture</field>
+      <field name="res_model">is.gestion.demandes</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="is_demandes_graph4_view"/>
+    </record>
+    <menuitem action="is_demandes_graph4_action"  id="is_demandes_graph4_menu" parent="menu_gestion_demandes_indicateurs" sequence="40"/>
+
+
+
+
+    <!--  Application concernée  -->
+    <record model="ir.ui.view" id="is_gestion_demandes_application_tree_view">
+        <field name="name">is_gestion_demandes_application_tree_view</field>
+        <field name="model">is.gestion.demandes.application</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="tps_mini"  sum="Total"/>
+                <field name="tps_maxi"  sum="Total"/>
+                <field name="tps_mini_jour"  sum="Total"/>
+                <field name="tps_maxi_jour"  sum="Total"/>
+                <field name="cout_horaire"/>
+                <field name="cout_mini" sum="Total"/>
+                <field name="cout_maxi" sum="Total"/>
+                <field name="commentaire"/>
+            </tree>
+        </field>
+    </record>
+            
+    <record model="ir.ui.view" id="is_gestion_demandes_application_form_view">
+        <field name="name">is_gestion_demandes_application_form_view</field>
+        <field name="model">is.gestion.demandes.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="tps_mini"/>
+                        <field name="tps_maxi"/>
+                        <field name="tps_mini_jour"/>
+                        <field name="tps_maxi_jour"/>
+                        <field name="cout_horaire"/>
+                        <field name="cout_mini"/>
+                        <field name="cout_maxi"/>
+                        <field name="commentaire"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="is_gestion_demandes_application_action" model="ir.actions.act_window">
+        <field name="name">Application</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.gestion.demandes.application</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="is_gestion_demandes_application_action" id="is_gestion_demandes_application_menu" parent="menu_gestion_demandes_configuration" sequence="10"/>
+
+
+
+</data>
+</openerp>

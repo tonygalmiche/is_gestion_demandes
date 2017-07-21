@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_is_gestion_demandes,access_is_gestion_demandes,model_is_gestion_demandes,account.group_account_invoice,1,1,1,1
+access_is_gestion_demandes_application,access_is_gestion_demandes_application,model_is_gestion_demandes_application,account.group_account_invoice,1,1,1,1
+access_is_export_demandes,access_is_export_demandes,model_is_export_demandes,,1,0,0,0
+access_is_indicateur_demandes,access_is_indicateur_demandes,model_is_indicateur_demandes,account.group_account_invoice,1,1,1,1
+
+
+
+
+
