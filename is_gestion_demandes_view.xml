@@ -28,6 +28,7 @@
                 <field name="etude"/>
                 <field name="tps_prevu"       sum="Total"/>
                 <field name="date_validation"/>
+                <field name="date_prevue"/>
                 <field name="date_realisation"/>
                 <field name="tps_passe"       sum="Total"/>
                 <field name="tps_passe_jour"  sum="Total"/>
@@ -57,6 +58,7 @@
                         <field name="etude"/>
                         <field name="tps_prevu"/>
                         <field name="date_validation"/>
+                        <field name="date_prevue"/>
                         <field name="date_realisation"/>
                         <field name="tps_passe"/>
                         <field name="montant_facture"/>
@@ -90,6 +92,7 @@
                     <filter string="Créateur"      context="{'group_by': 'createur_id'}"/>
                     <filter string="Demandeur"     context="{'group_by': 'demandeur_id'}"/>
                     <filter string="Application"   context="{'group_by': 'application_id'}"/>
+                    <filter string="Mois prevu"    context="{'group_by': 'date_prevue:month'}"/>
                     <filter string="Mois de réalisation"   context="{'group_by': 'date_realisation:month'}"/>
                     <filter string="Année de réalisation"  context="{'group_by': 'date_realisation:year'}"/>
                     <filter string="Facture"       context="{'group_by': 'facture'}"/>

@@ -51,6 +51,7 @@ class is_gestion_demandes(models.Model):
     etude            = fields.Text('Étude')
     tps_prevu        = fields.Float('Temps prévu (H)')
     date_validation  = fields.Date('Date validation')
+    date_prevue      = fields.Date('Date prévue')
     date_realisation = fields.Date('Date réalisation')
     tps_passe        = fields.Float('Temps passé (H)')
     tps_passe_jour   = fields.Float('Temps passé (Jour)', compute="_compute", store=True)
