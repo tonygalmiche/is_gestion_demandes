@@ -55,6 +55,7 @@ class is_gestion_demandes(models.Model):
     date_realisation = fields.Date('Date réalisation')
     tps_passe        = fields.Float('Temps passé (H)')
     tps_passe_jour   = fields.Float('Temps passé (Jour)', compute="_compute", store=True)
+    taux_horaire     = fields.Float('Taux horaire')
     montant_facture  = fields.Float('Montant à facturer', compute="_compute", store=True)
     facture          = fields.Char('Facture')
     state            = fields.Selection([
@@ -70,21 +71,19 @@ class is_gestion_demandes(models.Model):
         'createur_id': lambda obj, cr, uid, context: uid,
         'demandeur_id': lambda obj, cr, uid, context: uid,
         'date_demande': datetime.date.today(),
+        'taux_horaire': 37.5,
         'state': 'a_chiffrer',
     }
 
 
-    @api.depends('application_id','tps_passe')
+    @api.depends('tps_passe','taux_horaire')
     def _compute(self):
         for obj in self:
-            cout_horaire=37.5
-            if obj.application_id:
-                cout_horaire=obj.application_id.cout_horaire
-            obj.montant_facture = obj.tps_passe*cout_horaire
+            #cout_horaire=37.5
+            #if obj.application_id:
+            #    cout_horaire=obj.application_id.cout_horaire
+            obj.montant_facture = obj.tps_passe*obj.taux_horaire
             obj.tps_passe_jour=obj.tps_passe/8
-
-
-
 
 
     @api.model

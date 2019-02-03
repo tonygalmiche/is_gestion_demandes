@@ -61,6 +61,7 @@
                         <field name="date_prevue"/>
                         <field name="date_realisation"/>
                         <field name="tps_passe"/>
+                        <field name="taux_horaire"/>
                         <field name="montant_facture"/>
                         <field name="facture"/>
                     </group>
@@ -277,9 +278,11 @@
                 <field name="tps_maxi"  sum="Total"/>
                 <field name="tps_mini_jour"  sum="Total"/>
                 <field name="tps_maxi_jour"  sum="Total"/>
+                <!--
                 <field name="cout_horaire"/>
                 <field name="cout_mini" sum="Total"/>
                 <field name="cout_maxi" sum="Total"/>
+                -->
                 <field name="commentaire"/>
             </tree>
         </field>
@@ -297,9 +300,11 @@
                         <field name="tps_maxi"/>
                         <field name="tps_mini_jour"/>
                         <field name="tps_maxi_jour"/>
+                        <!--
                         <field name="cout_horaire"/>
                         <field name="cout_mini"/>
                         <field name="cout_maxi"/>
+                        -->
                         <field name="commentaire"/>
                     </group>
                 </sheet>

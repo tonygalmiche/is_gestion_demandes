@@ -37,7 +37,7 @@ class is_indicateur_demandes(osv.osv):
                         (ia.tps_maxi_jour - sum(gd.tps_passe)/8) as tps_restant,
                         (100*sum(gd.tps_passe)/ia.tps_maxi) as avancement
                     FROM is_gestion_demandes gd LEFT OUTER JOIN is_gestion_demandes_application ia ON gd.application_id=ia.id 
-                    WHERE ia.id>0 
+                    WHERE ia.id>0 and ia.tps_maxi>0
                     GROUP BY ia.id, ia.name
                     ORDER BY ia.name 
                )
